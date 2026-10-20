@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "crescr-web",
-    "slug": "crescr-web",
+    "name": "Chaytr",
+    "slug": "chaytr-web",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/brand/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
@@ -19,7 +19,18 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/brand/favicon.png",
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-font"
+    ],
+    "scheme": "chaytr",
+    "experiments": {
+      "typedRoutes": false
     }
   }
 }

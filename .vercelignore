@@ -1,0 +1,9 @@
+# Not part of the public website. The backend (accounts database, email settings) stays on this PC.
+server/
+scripts/
+start-website.cmd
+dist/
+.expo/
+node_modules/
+*.db
+.env*
