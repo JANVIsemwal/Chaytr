@@ -21,11 +21,42 @@ Robotics and Fintech**. Built with React Native and Expo, and deployed on Vercel
 
 ## Products
 
-**NexPay:** a temporary UPI wallet for foreign visitors to India. Load money at a fair exchange rate, pay at
-any UPI QR, and cash out what is left before flying home. No Indian bank account needed.
+<table>
+<tr>
+<td width="50%" valign="top">
 
-**Bhedak:** a handheld radar that finds a hidden, armed person through dense forest and warns soldiers with
-a silent vibration.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/nexpay-logo-white.svg" />
+  <img src="assets/brand/nexpay-logo-black.svg" alt="NexPay" height="48" />
+</picture>
+
+**India's UPI, now open to everyone.**
+
+A temporary UPI wallet for foreign visitors to India. Sign up with a passport and visa, load money at a fair
+exchange rate, pay at any UPI QR, earn rewards, and cash out what is left before flying home. No Indian
+bank account needed.
+
+*Fintech · Coming soon*
+
+</td>
+<td width="50%" valign="top">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/bhedak-logo-white.png" />
+  <img src="assets/brand/bhedak-logo-black.png" alt="Bhedak (भेदक)" height="64" />
+</picture>
+
+**See the threat before it sees you.**
+
+Sentinel Pathfinder is a handheld radar for soldiers on forest patrol. It looks through leaves and
+camouflage for the glint of metal and the rhythm of breathing together, and warns the soldier with a
+silent vibration from 30–50 m away.
+
+*Defence and public safety · In development*
+
+</td>
+</tr>
+</table>
 
 ## Run locally
 
