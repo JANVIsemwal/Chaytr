@@ -44,7 +44,6 @@ export default function About() {
             <T variant="h2" style={{ fontSize: isMobile ? 24 : 34, lineHeight: isMobile ? 32 : 44 }}>
               {about.story}
             </T>
-            <T variant="body">{about.storyExtra}</T>
           </View>
         </View>
       </Section>

@@ -321,7 +321,6 @@ export const emptyState = {
 export const about = {
   headline: 'Built by people who believe technology should feel simple.',
   story: `${COMPANY_NAME} is a team of builders who kept seeing the same thing: powerful technology that ordinary people find hard to use. So we build the products we wished existed, from the device to the app.`,
-  storyExtra: '[Add the founding year and one line on how the team came together.]',
   mission:
     'To build simple, trustworthy technology that solves everyday problems and connects people across borders.',
   vision: 'To grow into a family of products that people around the world rely on every day.',
