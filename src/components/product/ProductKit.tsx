@@ -21,6 +21,7 @@ export function ProductHero({
   intro,
   cta,
   ctaHref,
+  secondary,
   visual,
   logo,
 }: {
@@ -33,6 +34,8 @@ export function ProductHero({
   intro: string;
   cta: string;
   ctaHref: string;
+  /** Second button; defaults to a link back to all projects. */
+  secondary?: { label: string; href: string };
   visual: ReactNode;
   /** Product logo shown instead of the decoded name (the name stays as the accessible heading). */
   logo?: ReactNode;
@@ -78,7 +81,7 @@ export function ProductHero({
             <Text style={{ fontFamily: fonts.body, fontSize: 17, lineHeight: 28, color: C.muted, maxWidth: 560 }}>{intro}</Text>
             <View style={{ flexDirection: isMobile ? 'column' : 'row', gap: 12, marginTop: 6 }}>
               <CTAButton label={`${cta.toLowerCase().replace(/\s+/g, '_')}() →`} href={ctaHref} solid />
-              <CTAButton label="all_projects" href="/projects" />
+              <CTAButton label={secondary?.label ?? 'all_projects'} href={secondary?.href ?? '/projects'} />
             </View>
           </View>
           <View style={{ flex: isTablet ? undefined : 1, alignItems: 'center' }}>{visual}</View>
@@ -131,7 +134,7 @@ export function Roadmap({ stages }: { stages: { title: string; state: keyof type
 }
 
 /** Closing band: gradient-framed panel with a call to action, over the live network. */
-export function ProductCTA({ title, text, cta, href }: { title: string; text: string; cta: string; href: string }) {
+export function ProductCTA({ title, text, cta, href, secondary }: { title: string; text: string; cta: string; href: string; secondary?: { label: string; href: string } }) {
   const { isMobile } = useBreakpoint();
   const wrap = useWrap();
   return (
@@ -147,8 +150,9 @@ export function ProductCTA({ title, text, cta, href }: { title: string; text: st
             </Mono>
             <Text style={{ fontFamily: fonts.displayBold, fontSize: isMobile ? 34 : 54, lineHeight: isMobile ? 40 : 60, color: C.text, textAlign: 'center', letterSpacing: -1.2 }}>{title}</Text>
             <Text style={{ fontFamily: fonts.body, fontSize: 17, lineHeight: 27, color: C.muted, textAlign: 'center', maxWidth: 560 }}>{text}</Text>
-            <View style={{ marginTop: 8 }}>
+            <View style={{ marginTop: 8, flexDirection: isMobile ? 'column' : 'row', gap: 12, alignItems: 'center' }}>
               <CTAButton label={`${cta.toLowerCase().replace(/\s+/g, '_')}() →`} href={href} solid />
+              {secondary ? <CTAButton label={secondary.label} href={secondary.href} /> : null}
             </View>
           </View>
         </View>

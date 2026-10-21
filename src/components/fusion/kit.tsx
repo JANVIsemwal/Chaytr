@@ -4,7 +4,7 @@
  */
 import { Link } from 'expo-router';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { Image, ImageSourcePropType, Platform, Pressable, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, Linking, Platform, Pressable, Text, View } from 'react-native';
 import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 
 import { web, type CanvasDraw } from '@/components/fx';
@@ -115,47 +115,46 @@ export function Brackets({ color = C.lineWarm, size = 14 }: { color?: string; si
   );
 }
 
+/** Pill button. Internal paths navigate in the site; full https links open in a new tab. */
 export function CTAButton({ label, href, solid }: { label: string; href: string; solid?: boolean }) {
+  const external = /^https?:\/\//.test(href);
+  const body = (s: unknown) => {
+    const hov = (s as { hovered?: boolean }).hovered;
+    return (
+      <View
+        style={[
+          {
+            height: 50,
+            paddingHorizontal: 24,
+            borderRadius: 999,
+            justifyContent: 'center',
+            alignItems: 'center',
+            overflow: 'hidden',
+            borderWidth: solid ? 0 : 1,
+            borderColor: hov ? C.cyan : 'rgba(255,255,255,0.25)',
+            backgroundColor: solid ? undefined : hov ? 'rgba(34,211,238,0.08)' : 'transparent',
+            shadowColor: C.cyan,
+            shadowOpacity: solid && hov ? 0.7 : 0,
+            shadowRadius: 22,
+          },
+          web({ transitionDuration: '200ms' }),
+        ]}
+      >
+        {solid && <Dawn id={`cta-${label.length}`} />}
+        <Text style={{ fontFamily: MONO_B, fontSize: 14, color: '#FFFFFF', letterSpacing: 0.4 }}>{label}</Text>
+      </View>
+    );
+  };
+  if (external) {
+    return (
+      <Pressable accessibilityRole="link" onPress={() => Linking.openURL(href)}>
+        {body}
+      </Pressable>
+    );
+  }
   return (
     <Link href={href as never} asChild>
-      <Pressable>
-        {(s) => {
-          const hov = (s as { hovered?: boolean }).hovered;
-          return (
-            <View
-              style={[
-                {
-                  height: 50,
-                  paddingHorizontal: 24,
-                  borderRadius: 999,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden',
-                  borderWidth: solid ? 0 : 1,
-                  borderColor: hov ? C.cyan : 'rgba(255,255,255,0.25)',
-                  backgroundColor: solid ? undefined : hov ? 'rgba(34,211,238,0.08)' : 'transparent',
-                  shadowColor: C.cyan,
-                  shadowOpacity: solid && hov ? 0.7 : 0,
-                  shadowRadius: 22,
-                },
-                web({ transitionDuration: '200ms' }),
-              ]}
-            >
-              {solid && <Dawn id={`cta-${label.length}`} />}
-              <Text
-                style={{
-                  fontFamily: MONO_B,
-                  fontSize: 14,
-                  color: '#FFFFFF',
-                  letterSpacing: 0.4,
-                }}
-              >
-                {label}
-              </Text>
-            </View>
-          );
-        }}
-      </Pressable>
+      <Pressable>{body}</Pressable>
     </Link>
   );
 }

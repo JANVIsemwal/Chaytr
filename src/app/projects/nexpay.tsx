@@ -24,6 +24,7 @@ export default function NexPay() {
         intro={nexpay.intro}
         cta={nexpay.cta}
         ctaHref={ctaHref}
+        secondary={{ label: nexpay.appCta, href: nexpay.appUrl }}
         visual={<NexPayVisual />}
         logo={<NexPayLogo width={isMobile ? 280 : 430} tagline />}
       />
@@ -50,7 +51,7 @@ export default function NexPay() {
         items={[{ q: 'How is it better than cash or a forex card?', a: <CompareTable columns={nexpay.compare.columns} rows={nexpay.compare.rows} /> }, ...nexpay.faqs]}
       />
 
-      <ProductCTA title={nexpay.ctaTitle} text={nexpay.ctaText} cta={nexpay.cta} href={ctaHref} />
+      <ProductCTA title={nexpay.ctaTitle} text={nexpay.ctaText} cta={nexpay.cta} href={ctaHref} secondary={{ label: nexpay.appCta, href: nexpay.appUrl }} />
     </Page>
   );
 }

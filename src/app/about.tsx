@@ -1,7 +1,10 @@
-import { Image, View } from 'react-native';
+import { useState } from 'react';
+import { Image, ImageSourcePropType, Pressable, Text, View } from 'react-native';
 
 import { Backdrop } from '@/components/Backdrop';
 import { ClosingBanner } from '@/components/ClosingBanner';
+import { C, Mono } from '@/components/fusion/kit';
+import { web } from '@/components/fx';
 import { DomainIcon } from '@/components/Icons';
 import { Container, Grid, Section } from '@/components/Layout';
 import { Page } from '@/components/Page';
@@ -9,7 +12,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { Eyebrow, T } from '@/components/Typography';
 import { about, COMPANY_NAME, domains, team } from '@/config/site';
 import { useBreakpoint } from '@/hooks/useBreakpoint';
-import { colors } from '@/theme';
+import { colors, fonts, MAX_WIDTH } from '@/theme';
 
 /** Two-column row: label on the left, content on the right (stacks on smaller screens). */
 function Split({ label, children }: { label: string; children: React.ReactNode }) {
@@ -20,6 +23,55 @@ function Split({ label, children }: { label: string; children: React.ReactNode }
         <Eyebrow>{label}</Eyebrow>
       </View>
       <View style={{ flex: isTablet ? undefined : 1 }}>{children}</View>
+    </View>
+  );
+}
+
+/** One person: square portrait, name and role. Every card is exactly the same size. */
+function TeamCard({ name, role, photo, width }: { name: string; role: string; photo: ImageSourcePropType; width: number }) {
+  const { isMobile } = useBreakpoint();
+  return (
+    <Pressable style={{ width }} accessibilityLabel={`${name}, ${role}`}>
+      {(state) => {
+        const hovered = (state as { hovered?: boolean }).hovered;
+        return (
+          <View style={{ gap: 14 }}>
+            <View style={[{ width: '100%', aspectRatio: 1, borderRadius: 18, overflow: 'hidden', borderWidth: 1.5, borderColor: hovered ? C.cyan : C.line, backgroundColor: '#000' }, web({ transitionDuration: '300ms' })]}>
+              <Image
+                source={photo}
+                resizeMode="cover"
+                accessibilityIgnoresInvertColors
+                style={[{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }, web({ transform: hovered ? 'scale(1.04)' : 'scale(1)', transitionDuration: '600ms' })]}
+              />
+            </View>
+            {/* same text space on every card so the cards line up, even when a long name wraps */}
+            <View style={{ gap: 6, minHeight: isMobile ? 84 : 56 }}>
+              <Text style={{ fontFamily: fonts.displayBold, fontSize: isMobile ? 17 : 19, lineHeight: isMobile ? 22 : 24, color: C.text }}>{name}</Text>
+              <Mono size={12} bold color={C.cyan}>
+                {role.toUpperCase()}
+              </Mono>
+            </View>
+          </View>
+        );
+      }}
+    </Pressable>
+  );
+}
+
+/** Wraps the cards in equal columns (5 / 3 / 2); a short last row is centred, never stretched. */
+function TeamGrid() {
+  const { width, gutter, isMobile } = useBreakpoint();
+  // measured width of the row (falls back to an estimate before the first layout)
+  const [inner, setInner] = useState(0);
+  const avail = inner || Math.min(width - gutter * 2, MAX_WIDTH);
+  const cols = avail >= 1000 ? 5 : avail >= 620 ? 3 : 2;
+  const gap = isMobile ? 16 : 24;
+  const cardW = Math.floor((avail - gap * (cols - 1)) / cols) - 1;
+  return (
+    <View onLayout={(e) => setInner(e.nativeEvent.layout.width)} style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', columnGap: gap, rowGap: isMobile ? 28 : 40 }}>
+      {team.map((m) => (
+        <TeamCard key={m.name} name={m.name} role={m.role} photo={m.photo} width={cardW} />
+      ))}
     </View>
   );
 }
@@ -200,29 +252,14 @@ export default function About() {
         </View>
       </Section>
 
-      {/* team (optional; appears once people are added in config) */}
+      {/* team: equal cards for everyone */}
       {team.length > 0 && (
         <Section divider>
-          <View style={{ gap: 20, marginBottom: isMobile ? 40 : 64 }}>
+          <View style={{ gap: 20, marginBottom: isMobile ? 36 : 56 }}>
             <Eyebrow>Team</Eyebrow>
             <T variant="h2">The people behind {COMPANY_NAME}</T>
           </View>
-          <Grid columns={isMobile ? 1 : isTablet ? 2 : 4} gap={24}>
-            {team.map((m) => (
-              <View key={m.name} style={{ gap: 12 }}>
-                <View style={{ aspectRatio: 4 / 5, borderRadius: 12, backgroundColor: colors.line, overflow: 'hidden' }}>
-                  {m.photo ? <Image source={{ uri: m.photo }} style={{ width: '100%', height: '100%' }} /> : null}
-                </View>
-                <View style={{ gap: 2 }}>
-                  <T variant="h3">{m.name}</T>
-                  <T variant="small" color={colors.accentInk} weight="medium">
-                    {m.role}
-                  </T>
-                </View>
-                <T variant="body">{m.bio}</T>
-              </View>
-            ))}
-          </Grid>
+          <TeamGrid />
         </Section>
       )}
 

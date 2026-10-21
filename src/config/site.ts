@@ -5,6 +5,7 @@
  * across every page, the navbar, the footer and the SEO tags.
  * Anything still in [brackets] is a placeholder waiting on the team.
  */
+import type { ImageSourcePropType } from 'react-native';
 
 export const COMPANY_NAME = 'Chaytr';
 
@@ -126,6 +127,9 @@ export const nexpay = {
   headline: "India's UPI, now open to everyone.",
   intro: 'A temporary UPI wallet for visitors to India. No Indian bank account needed.',
   cta: 'Join the NexPay Waitlist',
+  /** The working prototype (web app). */
+  appUrl: 'https://nexpayin.netlify.app/',
+  appCta: 'try_the_app ↗',
   statement: {
     kicker: 'THE PROBLEM',
     big: 'India pays with a QR code. Visitors can’t.',
@@ -175,7 +179,7 @@ export const nexpay = {
     },
     {
       q: 'Who is building it?',
-      a: 'Team Vertex, a multidisciplinary student team. NexPay placed 3rd at our college Ideathon and was awarded a dedicated cubicle to pilot the solution. The prototype runs on React, Firebase and Node.js.',
+      a: 'Team Vertex, a multidisciplinary student team. NexPay placed 3rd at our college Ideathon and was awarded a dedicated cubicle to pilot the solution. The prototype runs on React, Firebase and Node.js, and you can try it at nexpayin.netlify.app.',
     },
   ],
   ctaTitle: 'Be first to use NexPay.',
@@ -344,8 +348,17 @@ export const about = {
   ],
 };
 
-/** Optional. The team section only appears once at least one person is added. */
-export const team: { name: string; role: string; bio: string; photo?: string }[] = [];
+/**
+ * The team, shown on About Us with equal-size portraits. Names and roles from the NexPay deck
+ * ("Meet the Team"). Photos are in assets/team (same crop and colour grade for everyone).
+ */
+export const team: { name: string; role: string; photo: ImageSourcePropType }[] = [
+  { name: 'Prakhar Gupta', role: 'CEO & Founder', photo: require('../../assets/team/prakhar.jpg') },
+  { name: 'Pradumna Singh Hada', role: 'COO & Co-Founder', photo: require('../../assets/team/pradhuman.jpg') },
+  { name: 'Angad Kumar Dangi', role: 'Chief Technical Officer', photo: require('../../assets/team/angad.jpg') },
+  { name: 'Anisha Bhandari', role: 'Chief Marketing Officer', photo: require('../../assets/team/anisha.jpg') },
+  { name: 'Janvi Semwal', role: 'Tech Advisor', photo: require('../../assets/team/janvi.jpg') },
+];
 
 // ---------------------------------------------------------------------------
 // Contact
