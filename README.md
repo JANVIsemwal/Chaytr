@@ -72,12 +72,6 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:8081.
 
-## Deploy on Vercel
 
-1. Go to [vercel.com](https://vercel.com) → **Add New → Project** and import this repository.
-2. Set the framework preset to **Other**.
-3. Click **Deploy**.
 
-The build settings are already in `vercel.json`. Every push to `main` redeploys the site.
